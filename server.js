@@ -11,9 +11,36 @@ dotenv.config();
 
 const app = express();
 
+// app.use(
+//   cors({ credentials: true, origin: "https://blogifyblogs.netlify.app/" })
+// );
+
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: ["http://localhost:3000", "https://blogifyblogs.netlify.app"],
+//   })
+// );
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://blogifyblogs.netlify.app",
+];
+
 app.use(
-  cors({ credentials: true, origin: "https://blogifyblogs.netlify.app/" })
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); // Allow requests with no origin (like mobile apps, curl, etc.)
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg =
+          "The CORS policy for this site does not allow access from the specified Origin.";
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+  })
 );
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.json());
