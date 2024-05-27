@@ -13,7 +13,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // Replace with your frontend domain
+    origin: "http://blogifyblogs.netlify.app/", // Replace with your frontend domain
     credentials: true, // Allow credentials (cookies) to be sent
   })
 );
