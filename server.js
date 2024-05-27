@@ -11,11 +11,18 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Replace with your frontend domain
+    credentials: true, // Allow credentials (cookies) to be sent
+  })
+);
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
 app.use("/api/auth", authRoutes);

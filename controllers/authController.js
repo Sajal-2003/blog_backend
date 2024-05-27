@@ -55,7 +55,11 @@ const loginController = async (req, res) => {
       { expiresIn: "1d" }
     );
 
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "strict",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
 
     return res
       .status(201)
@@ -101,7 +105,7 @@ const postController = async (req, res) => {
   fs.renameSync(path, newPath);
 
   const { token } = req.cookies;
-
+  // console.log(token);
   const { title, summary, content } = req.body;
 
   const info = jwt.verify(token, process.env.JWT_SECRET_KEY);
@@ -142,6 +146,7 @@ const updatePostController = async (req, res) => {
   }
 
   const { token } = req.cookies;
+
   jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, info) => {
     if (err) throw err;
     const { id, title, summary, content } = req.body;
