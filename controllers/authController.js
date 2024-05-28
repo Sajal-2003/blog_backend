@@ -105,7 +105,7 @@ const postController = async (req, res) => {
   fs.renameSync(path, newPath);
 
   const { token } = req.cookies;
-  // console.log(token);
+  console.log(token);
   const { title, summary, content } = req.body;
 
   const info = jwt.verify(token, process.env.JWT_SECRET_KEY);
