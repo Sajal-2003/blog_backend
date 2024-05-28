@@ -60,7 +60,7 @@ const loginController = async (req, res) => {
       sameSite: "strict",
       maxAge: 24 * 60 * 60 * 1000,
     });
-
+    console.log(token);
     return res
       .status(201)
       .send({ success: true, msg: "Login Successfully", existingUser, token });
@@ -86,6 +86,8 @@ const profileController = async (req, res) => {
 
 const logoutController = async (req, res) => {
   try {
+    const { token } = req.cookies;
+    console.log(token);
     res.cookie("token", "");
     return res.status(201).json({
       success: true,
