@@ -106,10 +106,15 @@ const postController = async (req, res) => {
 
   const { token } = req.cookies;
   console.log(token);
+  if (!token) {
+    return res.status(401).json({ error: "Token must be provided" });
+  }
   const { title, summary, content } = req.body;
 
   const info = jwt.verify(token, process.env.JWT_SECRET_KEY);
-
+  if (!info) {
+    return res.status(403).json({ error: "Invalid token" });
+  }
   const postDoc = await Post.create({
     title,
     summary,
