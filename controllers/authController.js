@@ -3,6 +3,7 @@ const Post = require("../models/postModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
+const { log } = require("console");
 
 const registerController = async (req, res) => {
   try {
@@ -57,10 +58,9 @@ const loginController = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "none",
       maxAge: 24 * 60 * 60 * 1000,
     });
-    console.log(token);
+
     return res
       .status(201)
       .send({ success: true, msg: "Login Successfully", existingUser, token });
@@ -86,9 +86,11 @@ const profileController = async (req, res) => {
 
 const logoutController = async (req, res) => {
   try {
-    const { token } = req.cookies;
-    console.log(token);
-    res.cookie("token", "");
+    res.cookie("token", "", {
+      httpOnly: true,
+      sameSite: "None",
+      expires: new Date(0), // Immediately expire the cookie
+    });
     return res.status(201).json({
       success: true,
       msg: "Logout Succesfully",
@@ -107,7 +109,6 @@ const postController = async (req, res) => {
   fs.renameSync(path, newPath);
 
   const { token } = req.cookies;
-  console.log(token);
   if (!token) {
     return res.status(401).json({ error: "Token must be provided" });
   }

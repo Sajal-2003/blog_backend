@@ -13,7 +13,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // Replace with your frontend domain
+    origin: "http://localhost:3000",
     credentials: true, // Allow credentials (cookies) to be sent
   })
 );
@@ -21,7 +21,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
