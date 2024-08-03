@@ -3,7 +3,6 @@ const Post = require("../models/postModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
-const { log } = require("console");
 
 const registerController = async (req, res) => {
   try {
@@ -70,12 +69,14 @@ const loginController = async (req, res) => {
   }
 };
 
+// Used in header to check whether the user is logged in or not by comapring token
 const profileController = async (req, res) => {
   try {
     const { token } = req.cookies;
 
     if (token) {
       const info = jwt.verify(token, process.env.JWT_SECRET_KEY);
+      console.log(info);
       res.status(201).json(info);
     }
   } catch (error) {
@@ -109,6 +110,7 @@ const postController = async (req, res) => {
   fs.renameSync(path, newPath);
 
   const { token } = req.cookies;
+
   if (!token) {
     return res.status(401).json({ error: "Token must be provided" });
   }
