@@ -53,14 +53,12 @@ Make sure to replace the placeholder values in the `.env` file with your actual 
 1. **Start the development server:**
 
     ```sh
-    npm run dev
+    npm run server
     ```
 
     The server will start on the port specified in the `.env` file (default is 8000).
 
-2. **Access the API:**
 
-    The API will be available at `http://localhost:8000`.
 
 
 ## Contributing
